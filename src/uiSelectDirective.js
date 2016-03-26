@@ -153,6 +153,12 @@ uis.directive('uiSelect',
           });
         }
 
+        // <div>s and other non-form elements should not have 'disabled' attribute and it causes problems in IE
+        // so if current theme uses something other than <select>, remove 'disabled' attribute from root element in DOM
+        if (element.prop('tagName') != "select") {
+          element.removeAttr('disabled');
+        }
+
         function onDocumentClick(e) {
           if (!$select.open) return; //Skip it if dropdown is close
 

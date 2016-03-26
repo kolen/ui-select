@@ -546,6 +546,28 @@ describe('ui-select tests', function() {
     expect(isDropdownOpened(el3)).toEqual(true);
   });
 
+  it('should not have disabled attribute on div', function() {
+    var el1 = createUiSelect({disabled: true, theme: 'bootstrap'});
+    expect(el1.attr('disabled')).toEqual(undefined);
+    var el2 = createUiSelect({disabled: true, theme: 'select2'});
+    expect(el2.attr('disabled')).toEqual(undefined);
+    var el3 = createUiSelect({disabled: true, theme: 'selectize'});
+    expect(el3.attr('disabled')).toEqual(undefined);
+  });
+
+  it('should allow to change disabled state but not to add disabled attribute', function() {
+    var el = createUiSelect({disabled: true, theme: 'select2'});
+    expect(el.attr('disabled')).toEqual(undefined);
+    el.scope().$select.disabled = false;
+    scope.$digest();
+    expect(el.scope().$select.disabled).toEqual(false);
+    expect(el.attr('disabled')).toEqual(undefined);
+    el.scope().$select.disabled = true;
+    scope.$digest();
+    expect(el.scope().$select.disabled).toEqual(true);
+    expect(el.attr('disabled')).toEqual(undefined);
+  });
+
   it('should allow decline tags when tagging function returns null', function() {
     scope.taggingFunc = function (name) {
       return null;
